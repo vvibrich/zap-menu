@@ -147,7 +147,7 @@ export default function RestaurantMenu({ params }: { params: Promise<{ slug: str
     }
 
     const link = generateWhatsAppLink(restaurant?.whatsapp_number || '', message);
-    window.location.href = link;
+    window.open(link, '_blank');
   };
 
   if (loading) {

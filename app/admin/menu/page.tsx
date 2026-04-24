@@ -60,6 +60,7 @@ export default function MenuManagement() {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (user) {
       const timeout = setTimeout(fetchMenuData, 0);

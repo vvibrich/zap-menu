@@ -57,6 +57,7 @@ export default function SettingsPage() {
     setZones(data || []);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (user) {
       const timeout = setTimeout(fetchSettings, 0);
