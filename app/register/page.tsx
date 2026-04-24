@@ -34,7 +34,7 @@ export default function RegisterPage() {
 
     if (authData.user) {
       // 2. Create initial restaurant profile
-      const slug = restaurantName.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+      const slug = restaurantName.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '') + '-' + Math.random().toString(36).substring(2, 7);
       
       const { error: dbError } = await supabase.from('restaurants').insert({
         user_id: authData.user.id,
@@ -44,11 +44,18 @@ export default function RegisterPage() {
       });
 
       if (dbError) {
-        setError('Conta criada, mas erro ao configurar restaurante. Você pode ajustar isso no painel.');
-        console.error(dbError);
+        setLoading(false);
+        setError('Conta criada, mas erro ao configurar restaurante: ' + dbError.message);
+        console.error('Registration DB Error:', dbError);
+        return;
       }
       
       router.push('/admin');
+    } else if (authData.session === null && !authError) {
+      // Case where email confirmation is required
+      setLoading(false);
+      setError('Conta criada! Por favor, verifique seu e-mail para confirmar a conta e poder criar seu restaurante.');
+      return;
     }
   };
 

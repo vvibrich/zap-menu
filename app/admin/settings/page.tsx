@@ -49,15 +49,29 @@ export default function SettingsPage() {
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) return;
+    
     setSaving(true);
-    const { error } = await supabase
+    
+    // Prepare data to save
+    const payload = {
+      ...formData,
+      user_id: user.id,
+      // If we already have a restaurant ID, include it to ensure we update the right one
+      ...(restaurant?.id ? { id: restaurant.id } : {})
+    };
+
+    const { data, error } = await supabase
       .from('restaurants')
-      .update(formData)
-      .eq('id', restaurant?.id);
+      .upsert(payload, { onConflict: 'user_id' })
+      .select()
+      .single();
 
     if (error) {
       alert('Erro ao salvar: ' + error.message);
+      console.error('Settings Update Error:', error);
     } else {
+      setRestaurant(data);
       alert('Configurações salvas com sucesso!');
     }
     setSaving(false);

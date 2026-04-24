@@ -27,7 +27,7 @@ export function LandingPage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-8">
                 <span className="bg-[#F27D26] text-white font-bold text-[10px] px-3 py-1 uppercase tracking-[0.2em] rounded-full inline-block">
-                  Lançamento 2024
+                  Lançamento 2026
                 </span>
                 <h1 className="text-[64px] md:text-[84px] font-black leading-[0.85] tracking-tighter">
                   MENU <br/> <span className="text-[#F27D26]">VIVO</span> PRO <br/> WHATSAPP
@@ -104,7 +104,7 @@ export function LandingPage() {
       </main>
 
       <footer className="h-20 px-6 lg:px-12 border-t border-[#141414]/10 flex items-center justify-between bg-white text-[10px] font-bold uppercase tracking-[0.2em] opacity-40">
-        <span>© 2024 ZAPMENU TECHNOLOGIES</span>
+        <span>© 2026 ZAPMENU TECHNOLOGIES</span>
         <div className="hidden sm:flex gap-6">
           <span>Termos</span>
           <span>Privacidade</span>

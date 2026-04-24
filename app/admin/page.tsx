@@ -4,7 +4,7 @@ import AdminLayout from '@/components/admin/admin-layout';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/use-auth';
-import { Users, TrendingUp, ChevronRight, Utensils, Settings, Share2, Plus, QrCode } from 'lucide-react';
+import { Users, TrendingUp, ChevronRight, Utensils, Settings, Share2, Plus, QrCode, AlertCircle } from 'lucide-react';
 import NextLink from 'next/link';
 import { motion } from 'motion/react';
 
@@ -63,14 +63,45 @@ export default function AdminDashboard() {
           </div>
           
           <div className="flex gap-3">
-            <button className="flex items-center gap-3 px-6 py-4 bg-white border border-[#141414]/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-50 transition-all shadow-sm">
-              <Share2 size={16} /> Compartilhar
-            </button>
-            <NextLink href="/admin/menu" className="flex items-center gap-3 px-8 py-4 bg-[#141414] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-[#F27D26] transition-all shadow-xl">
-              <Plus size={16} /> Novo Item
-            </NextLink>
+            {!restaurant && (
+               <NextLink href="/admin/settings" className="flex items-center gap-3 px-8 py-4 bg-[#F27D26] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-[#141414] transition-all shadow-xl">
+                <Settings size={16} /> Configurar Restaurante
+              </NextLink>
+            )}
+            {restaurant && (
+              <>
+                <button className="flex items-center gap-3 px-6 py-4 bg-white border border-[#141414]/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-50 transition-all shadow-sm">
+                  <Share2 size={16} /> Compartilhar
+                </button>
+                <NextLink href="/admin/menu" className="flex items-center gap-3 px-8 py-4 bg-[#141414] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-[#F27D26] transition-all shadow-xl">
+                  <Plus size={16} /> Novo Item
+                </NextLink>
+              </>
+            )}
           </div>
         </div>
+
+        {!restaurant && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-[#F27D26]/10 border-2 border-[#F27D26] p-10 rounded-[48px] flex flex-col md:flex-row items-center gap-8 shadow-2xl"
+          >
+            <div className="w-20 h-20 bg-[#F27D26] rounded-[32px] flex items-center justify-center text-white shrink-0">
+               <AlertCircle size={40} />
+            </div>
+            <div className="text-center md:text-left space-y-2">
+              <h3 className="text-2xl font-black uppercase tracking-tight text-[#141414]">Complete seu Cadastro!</h3>
+              <p className="text-sm font-bold text-[#141414]/60 uppercase tracking-widest leading-relaxed">
+                Ainda não encontramos um perfil de restaurante vinculado à sua conta. <br/>
+                Clique no botão ao lado para configurar seu nome, WhatsApp e endereço.
+              </p>
+            </div>
+            <NextLink href="/admin/settings" className="md:ml-auto px-10 h-16 bg-[#141414] text-white rounded-2xl text-[11px] font-black uppercase tracking-widest flex items-center justify-center hover:bg-[#F27D26] transition-all whitespace-nowrap">
+              Configurar Agora
+            </NextLink>
+          </motion.div>
+        )}
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -97,6 +128,36 @@ export default function AdminDashboard() {
             </motion.div>
           ))}
         </div>
+
+        {restaurant && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-1 border-2 border-[#141414] rounded-[32px] overflow-hidden"
+          >
+            <div className="bg-[#F8F7F4] p-8 rounded-[28px] flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 bg-white border-2 border-[#141414] rounded-[24px] flex items-center justify-center font-black text-2xl">
+                  {restaurant.name?.charAt(0)}
+                </div>
+                <div>
+                  <h3 className="font-black text-lg uppercase tracking-tight">Seu link público está ativo!</h3>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Divulgue em seu Instagram ou WhatsApp</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 bg-white p-2 pl-6 rounded-2xl border border-[#141414]/10 w-full md:w-auto">
+                <code className="text-[10px] font-black uppercase text-[#F27D26]">zapmenu.com/r/{restaurant.slug}</code>
+                <a 
+                  href={`/r/${restaurant.slug}`} 
+                  target="_blank" 
+                  className="px-6 py-3 bg-[#141414] text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#F27D26] transition-all"
+                >
+                  Visualizar
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Quick Actions */}
@@ -130,7 +191,7 @@ export default function AdminDashboard() {
                <h3 className="text-xl font-black uppercase tracking-tight">Novos Recursos</h3>
                <p className="text-gray-400 font-medium text-sm mt-2 max-w-[280px]">Estamos preparando um sistema de inteligência artificial para sugerir pratos!</p>
             </div>
-            <button className="text-[10px] font-black uppercase tracking-widest text-[#F27D26] hover:underline underline-offset-8 transition-all">Ver Roadmap 2024</button>
+            <button className="text-[10px] font-black uppercase tracking-widest text-[#F27D26] hover:underline underline-offset-8 transition-all">Ver Roadmap 2026</button>
           </div>
         </div>
       </div>

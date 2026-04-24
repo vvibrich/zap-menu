@@ -101,7 +101,7 @@ export default function LoginPage() {
         </motion.div>
         
         <div className="mt-12 text-[10px] font-bold uppercase tracking-[0.3em] text-[#141414]/20">
-          ZAPMENU TECHNOLOGIES © 2024
+          ZAPMENU TECHNOLOGIES © 2026
         </div>
       </div>
     </div>
