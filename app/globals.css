@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #F27D26;
+  --color-dark: #141414;
+  --color-surface: #F8F7F4;
+  --font-display: var(--font-sans);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-dark);
+  }
+}
